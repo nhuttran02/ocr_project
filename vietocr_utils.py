@@ -43,7 +43,6 @@ def full_ocr_pipeline(image_bytes: bytes) -> str:
 
     return final_text.strip()
 
-
 def recognize_text_vietocr(image: np.ndarray) -> str:
     pil_img = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
     return vietocr_model.predict(pil_img)
