@@ -61,3 +61,21 @@ async def ocr_hybrid(file: UploadFile = File(...)):
 
     os.remove(temp_path)
     return JSONResponse({"text": full_text, "info": info})
+
+@app.post("/ocr/hybrid_advanced")
+async def ocr_hybrid_advanced(file: UploadFile = File(...)):
+    temp_path = "temp.jpg"
+    with open(temp_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    with open(temp_path, "rb") as img_f:
+        image_bytes = img_f.read()
+    full_text = full_ocr_pipeline(image_bytes)
+
+    info = process_identity_text(full_text)
+
+    os.remove(temp_path)
+    return JSONResponse({
+        "text": full_text, 
+        "info": info
+    })
